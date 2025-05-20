@@ -65,5 +65,5 @@ bash scripts/run.sh MODEL_NAME WORKERS BASE_URL API_KEY
 bash scripts/run.sh qwen2.5-72b 4 http://localhost:8000 sk-1234567890abcdef
 ```
 
-This will start the service using the `gpt-3.5-turbo` model with 4 worker processes, connecting to `http://localhost:8000` using the provided API key.
+This will start the service using the `qwen2.5-72b` model with 4 worker processes, connecting to `http://localhost:8000` using the provided API key.
 
