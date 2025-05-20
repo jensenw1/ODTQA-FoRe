@@ -1,6 +1,6 @@
 ## Overview
 
-This project provides a script to run the model service with configurable parameters. Follow the steps below to set up the environment, install dependencies, and execute the script.
+This project provides a script to run the model service with configurable parameters. Follow the steps below to set up the environment, install dependencies, start the necessary database container, and execute the script.
 
 ---
 
@@ -8,11 +8,40 @@ This project provides a script to run the model service with configurable parame
 
 * [Conda](https://docs.conda.io/en/latest/) installed on your system.
 * A valid API key for accessing the model backend service.
+* [Docker](https://docs.docker.com/) installed and running.
+
+---
+
+## Database Setup
+
+Before running the prediction script, you need to start a PostgreSQL container using Docker and load all the necessary tables into it.
+
+1. **Start the PostgreSQL container**:
+
+   ```bash
+   docker run -id \
+     --name=tqa-postgres \
+     -v ./data:/var/lib/postgresql/data \
+     -p 5432:5432 \
+     -e POSTGRES_PASSWORD='123456' \
+     -e POSTGRES_USER='tqa' \
+     -e LANG=C.UTF-8 \
+     --restart=always \
+     postgres:alpine
+   ```
+After successful execution, the database will be accessible via port 5432.
+
+2. **Import all tables into the database**:
+
+   The automation script for importing tables is provided as a Python notebook. Run it to populate the database:
+
+   ```bash
+   datasets/tables/import_table.ipynb
+   ```
 
 ---
 
 ## Installation
-
 
 1. Create and activate a Conda environment:
 
@@ -29,9 +58,9 @@ This project provides a script to run the model service with configurable parame
 
 ---
 
-## Usage
+## Reproduction
 
-To start the prediction, run the following command:
+To reproduce the results, run the following command:
 
 ```bash
 bash scripts/run.sh MODEL_NAME WORKERS BASE_URL API_KEY
@@ -66,4 +95,3 @@ bash scripts/run.sh qwen2.5-72b 4 http://localhost:8000 sk-1234567890abcdef
 ```
 
 This will start the prediction using the `qwen2.5-72b` model with 4 worker processes, connecting to `http://localhost:8000` using the provided API key.
-
